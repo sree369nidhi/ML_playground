@@ -12,7 +12,7 @@ import numpy as np
 from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
-
+st.set_option('deprecation.showPyplotGlobalUse', False)
 # add graphviz to path so that decision tree visualizaton can be showed in web
 # os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
