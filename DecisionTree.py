@@ -14,7 +14,7 @@ from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
 
 # add graphviz to path so that decision tree visualizaton can be showed in web
-os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
+# os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
 st.header('This is the machine learning playground for decision tree.')
 
@@ -70,17 +70,17 @@ st.write('Training Accuracy: ', round(score_train, 3))
 st.write('Test Accuracy: ', round(score_test, 3))
 
 # visualzie tree
-dotfile = StringIO()
-export_graphviz(clf, out_file=dotfile, feature_names=df.columns[:-1], class_names=['malignant', 'benign'],
-                rounded=True, proportion=False,
-                precision=2, filled=True)
+#dotfile = StringIO()
+#export_graphviz(clf, out_file=dotfile, feature_names=df.columns[:-1], class_names=['malignant', 'benign'],
+ #               rounded=True, proportion=False,
+  #              precision=2, filled=True)
 
-graph = pydotplus.graph_from_dot_data(dotfile.getvalue())
+#graph = pydotplus.graph_from_dot_data(dotfile.getvalue())
 
-graph.write_png("dtree.png")
+#graph.write_png("dtree.png")
 
-image = Image.open('dtree.png')
-st.image(image, caption='Decision tree visualization', use_column_width=True)
+#image = Image.open('dtree.png')
+#st.image(image, caption='Decision tree visualization', use_column_width=True)
 
 # learning curve
 X = df.iloc[:, :-1]
