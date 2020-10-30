@@ -3,18 +3,11 @@ import streamlit as st
 from sklearn.datasets import load_breast_cancer
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from PIL import Image
 from sklearn.tree import export_graphviz
-from io import StringIO
-import pydotplus
-import os
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
-st.set_option('deprecation.showPyplotGlobalUse', False)
-# add graphviz to path so that decision tree visualizaton can be showed in web
-# os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
 st.header('This is the machine learning playground for decision tree.')
 
@@ -70,17 +63,11 @@ st.write('Training Accuracy: ', round(score_train, 3))
 st.write('Test Accuracy: ', round(score_test, 3))
 
 # visualzie tree
-#dotfile = StringIO()
-#export_graphviz(clf, out_file=dotfile, feature_names=df.columns[:-1], class_names=['malignant', 'benign'],
- #               rounded=True, proportion=False,
-  #              precision=2, filled=True)
 
-#graph = pydotplus.graph_from_dot_data(dotfile.getvalue())
-
-#graph.write_png("dtree.png")
-
-#image = Image.open('dtree.png')
-#st.image(image, caption='Decision tree visualization', use_column_width=True)
+dot_data = export_graphviz(clf, out_file=None, feature_names=df.columns[:-1], class_names=['malignant', 'benign'],
+                           rounded=True, proportion=False,
+                           precision=2, filled=True)
+st.graphviz_chart(dot_data)
 
 # learning curve
 X = df.iloc[:, :-1]
@@ -99,9 +86,9 @@ def plot_leanring_curve(model, X, y, cv, train_sizes):
     test_scores_mean = np.mean(test_scores, axis=1)
     test_scores_std = np.std(test_scores, axis=1)
     fig, ax = plt.subplots(figsize=(12, 10))
-    ax.set_xlabel("Training examples",fontsize=15)
-    ax.set_ylabel("Accuracy",fontsize=15)
-    ax.set_title("Model learning curve",fontsize=20)
+    ax.set_xlabel("Training examples", fontsize=15)
+    ax.set_ylabel("Accuracy", fontsize=15)
+    ax.set_title("Model learning curve", fontsize=20)
     ax.grid()
     ax.fill_between(train_sizes, train_scores_mean - train_scores_std,
                     train_scores_mean + train_scores_std, alpha=0.1,
@@ -113,10 +100,9 @@ def plot_leanring_curve(model, X, y, cv, train_sizes):
             label="Training score")
     ax.plot(train_sizes, test_scores_mean, 'o-', color="g",
             label="Test score")
-    ax.legend(loc="best",fontsize=14)
+    ax.legend(loc="best", fontsize=14)
+    return fig
 
 
-plot_leanring_curve(clf, X, y, cv, train_sizes)
-st.pyplot()
-
-
+fig = plot_leanring_curve(clf, X, y, cv, train_sizes)
+st.pyplot(fig)
