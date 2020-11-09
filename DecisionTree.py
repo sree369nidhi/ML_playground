@@ -78,7 +78,6 @@ train_sizes = np.linspace(0.1, 1.0, 5)
 st.subheader('Learning curve review')
 
 
-@st.cache
 def plot_leanring_curve(model, X, y, cv, train_sizes):
     train_sizes, train_scores, test_scores = learning_curve(model, X=X, y=y, cv=cv, train_sizes=train_sizes)
     train_scores_mean = np.mean(train_scores, axis=1)
